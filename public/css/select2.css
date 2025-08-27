@@ -1,0 +1,71 @@
+/* Asegurar que el select2 ocupe el 100% del ancho disponible */
+.select2-container {
+    width: 100% !important;
+}
+
+/* Ajustar la apariencia del select2 para que coincida con Bootstrap */
+.select2-container .select2-selection--single {
+    height: calc(2.25rem + 2px) !important; /* Misma altura que los inputs */
+    border: 1px solid #ced4da !important;
+    border-radius: 0.375rem !important;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+/* Cambiar el placeholder */
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: #6c757d !important;
+}
+
+/* Estilos para el dropdown */
+/* .select2-dropdown {
+    border: 1px solid #ced4da !important;
+    border-radius: 0.375rem !important;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+} */
+
+/* Estilo de las opciones */
+.select2-results__option {
+    padding: 10px !important;
+    font-size: 1rem;
+}
+
+/* Opción resaltada */
+.select2-results__option--highlighted {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+/* Ajustar el contenedor para usar flex y alinear contenido */
+.select2-container .select2-selection--single {
+    display: flex !important;
+    justify-content: space-between; /* Empuja el clear hacia la derecha */
+    align-items: center;
+    padding-right: 2rem !important; /* Espacio para el botón clear */
+}
+
+/* Estilo para el botón de limpiar (clear) */
+.select2-selection__clear {
+    position: absolute;
+    right: 0.75rem; /* Pegado al borde derecho */
+    color: #6c757d; /* Gris por defecto */
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    z-index: 10;
+}
+
+/* Ajustar contenedor relativo para posicionamiento */
+.select2-selection--single {
+    position: relative;
+}
+
+/* Se forza al dropdown a salir hacia abajo */
+/* .force-down {
+    top: 100% !important;  /* Se asegura que salga hacia abajo
+    bottom: auto !important;
+} */
