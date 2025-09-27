@@ -2,15 +2,29 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Clients\StoreClientRequest;
 use App\Models\HistoryTitular;
 
 class HistoryTitularService{
-    public function createNewTitular(StoreClientRequest $request, $client){
+    public function createNewTitular($request, $client){
         $titular = new HistoryTitular();
         $titular->names_lastnames = $request->namesLastnames;
         $titular->dni = $request->dni;
         $titular->client_id = $client->id;
         $titular->save();
+    }
+
+    public function updateTitular($id, $request, $client){
+        // $titular = HistoryTitular::findOrFail($id);
+        $titular = HistoryTitular::where('client_id', $client->id)->orderBy('id', 'desc')->first();
+
+        if ($request->has('namesLastnames') && $request->has('dni')) {
+            $titular->update([
+                'is_current' => 0
+            ]);
+
+            $this->createNewTitular($request, $client);
+        }
+
+        return $titular;
     }
 }

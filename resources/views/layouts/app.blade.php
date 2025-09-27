@@ -54,7 +54,7 @@
         (function() {
             // urls de idiomas (usa protocolo-less para evitar problemas http/https)
             let languages = {
-                'es': '//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+                'es': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
             };
 
             // Detecta el locale de Laravel (opcional)
@@ -74,8 +74,7 @@
                 },
                 pageLength: 10,
                 responsive: true,
-                processing: true,
-                serverSide: false,
+                serverSide: true,
                 autoWidth: false,
                 
             });
@@ -92,12 +91,12 @@
     <style type="text/css">
         /* You can add AdminLTE customizations here */
         /*
-                .card-header {
-                    border-bottom: none;
-                }
-                .card-title {
-                    font-weight: 600;
-                }
-                */
+            .card-header {
+                border-bottom: none;
+            }
+            .card-title {
+                font-weight: 600;
+            }
+            */
     </style>
 @endpush

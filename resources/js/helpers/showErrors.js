@@ -1,7 +1,6 @@
-export function showErrors(errors){
+export function showErrors(errors, formType){
     Object.keys(errors).forEach(key => {
         const [baseKey, index] = key.split('.'); // ej: directions.0 → baseKey = directions, index = 0
-        const formType = 'create'; // o 'edit'
     
         if (index !== undefined) {
             // Campos dinámicos

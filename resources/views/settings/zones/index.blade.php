@@ -64,7 +64,15 @@
 @push('js')
 <script>
     $(document).ready(function() {
-        let zonesTable = $('#zonesTable').DataTable();
+        let zonesTable = $('#zonesTable').DataTable({
+            ajax: {
+                // url: "{{ route('clients.index') }}",
+                error: function(xhr, error, code) {
+                    console.warn("Error en la petición DataTables:", code, xhr.responseText);
+                    // Aquí evitamos el alert por defecto
+                }
+            },
+        })
 
         // zonesTable.on('click', '.edit', function(){
         //     $tr = $(this).closest('tr')

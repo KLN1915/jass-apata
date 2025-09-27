@@ -9,26 +9,26 @@
             </div>
             <form action="{{ route('clients.store') }}" method="POST" id="createForm">
                 @csrf
-                <div class="bs-stepper" id="stepper">
+                <div class="bs-stepper" id="create-stepper">
                     <div class="bs-stepper-header" role="tablist">
-                        <div class="step" data-target="#step-1">
-                            <button type="button" class="step-trigger" role="tab" aria-controls="step-1"
-                                id="stepper-trigger-1">
+                        <div class="step" data-target="#create-titular-part">
+                            <button type="button" class="step-trigger" role="tab" aria-controls="create-titular-part"
+                                id="create-titular-part-trigger">
                                 <span class="bs-stepper-circle">1</span>
                                 <span class="bs-stepper-label">Datos de titular</span>
                             </button>
                         </div>
                         <div class="line"></div>
-                        <div class="step" data-target="#step-2">
-                            <button type="button" class="step-trigger" role="tab" aria-controls="step-2"
-                                id="stepper-trigger-2">
+                        <div class="step" data-target="#create-directions-part">
+                            <button type="button" class="step-trigger" role="tab" aria-controls="create-directions-part"
+                                id="create-directions-part-trigger">
                                 <span class="bs-stepper-circle">2</span>
                                 <span class="bs-stepper-label">Direcciones</span>
                             </button>
                         </div>
                     </div>
                     <div class="bs-stepper-content">
-                        <div id="step-1" class="content" role="tabpanel" aria-labelledby="stepper-trigger-1">
+                        <div id="create-titular-part" class="content" role="tabpanel" aria-labelledby="create-titular-part-trigger">
                             <div class="row">
                                 <div class="col-md-9">
                                     <div class="form-group">
@@ -116,10 +116,10 @@
                             </div>
                             <div class="d-flex justify-content-end mt-3">
                                 <button type="button" class="btn btn-primary"
-                                    onclick="stepper.next()">Siguiente</button>
+                                    onclick="stepper1.next()">Siguiente</button>
                             </div>
                         </div>
-                        <div id="step-2" class="content" role="tabpanel" aria-labelledby="stepper-trigger-2">
+                        <div id="create-directions-part" class="content" role="tabpanel" aria-labelledby="create-directions-part-trigger">
                             <div id="directionsContainer">
                                 <div class="card directionFields">
                                     <div class="card-body">
@@ -221,7 +221,7 @@
                             </div>
                             <div class="d-flex justify-content-end gap-2 mt-3">
                                 <button type="button" class="btn btn-secondary"
-                                    onclick="stepper.previous()">Atrás</button>
+                                    onclick="stepper1.previous()">Atrás</button>
                                 <button type="submit" class="btn btn-primary ml-1">Guardar</button>
                             </div>
                         </div>
@@ -235,11 +235,11 @@
 @push('js')
     <script>
         //Stepper
-        document.addEventListener('DOMContentLoaded', function() {
-            window.stepper = new Stepper(document.querySelector('#stepper'), {
-                linear: false,
-                animation: true
-            });
+        // document.addEventListener('DOMContentLoaded', function() {
+        // });
+        var stepper1 = new Stepper(document.querySelector('#create-stepper'), {
+            linear: false,
+            animation: true
         });
 
         // Opciones de datePicker

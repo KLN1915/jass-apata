@@ -83,7 +83,7 @@ form.addEventListener('submit', (e) => {
             Swal.fire({
                 title: 'Éxito',
                 text: response.data.message, // Axios ya parsea JSON
-                type: 'success',
+                icon: 'success',
                 confirmButtonText: 'OK'
             }).then(() => {
                 window.location.href = url;
@@ -95,14 +95,14 @@ form.addEventListener('submit', (e) => {
             Swal.fire({
                 title: 'Error',
                 text: 'Hubo un problema al guardar los datos. Por favor, revisa los campos.',
-                type: 'error',
+                icon: 'error',
                 confirmButtonText: 'OK'
             });
 
             if (error.response && error.response.status === 422) {
                 const errors = error.response.data.errors;
 
-                showErrors(errors)
+                showErrors(errors, 'create')
             }
         });
 });
@@ -114,7 +114,7 @@ cleanInputs(form)
 $('#createModal').on('hidden.bs.modal', () => {
     resetModal('createModal')
     //retornar stepper a 1 al cerrar modal
-    window.stepper.to(1)
+    stepper1.to(1)
 
     // Limpiar direcciones dinámicas: dejar solo el primer .directionFields
     const directionsContainer = document.getElementById('directionsContainer');

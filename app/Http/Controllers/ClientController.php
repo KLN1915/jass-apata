@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Clients\StoreClientRequest;
+use App\Http\Requests\Clients\UpdateClientRequest;
 use Illuminate\Http\Request;
 use App\Services\ClientService;
 use App\Services\HistoryTitularService;
@@ -16,15 +17,17 @@ class ClientController extends Controller
         private ClientService $clientService,
         private OccupationService $occupationService,
         private HistoryTitularService $titularService,
-        private DirectionService $directionservice,
+        private DirectionService $directionService,
     ) {}
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $zones = Zone::all();
+        if ($request->ajax()) {
+            return $this->clientService->getClientsData();
+        }
 
         return view('clients.index');
     }
@@ -46,13 +49,13 @@ class ClientController extends Controller
             DB::beginTransaction();
 
             // Evaluar ocupacion
-            $occupation = $this->occupationService->existsOrCreate($request);
+            $occupation = $this->occupationService->resolveOccupation($request->occupation);
             // Crear cliente
             $client = $this->clientService->createClient($request, $occupation);
             // Crear titular
             $this->titularService->createNewTitular($request, $client);
             // Crear direcciones
-            $this->directionservice->createDirections($request, $client);
+            $this->directionService->createDirections($request, $client);
 
             DB::commit();
 
@@ -74,7 +77,7 @@ class ClientController extends Controller
      */
     public function show(string $id)
     {
-        
+        return $this->clientService->getClientData($id);
     }
 
     /**
@@ -82,15 +85,39 @@ class ClientController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateClientRequest $request, string $id)
     {
-        
+        try{
+            DB::beginTransaction();
+
+            // Evaluar o actualizar ocupacion
+            $this->occupationService->updateOccupation($id, $request->occupation);
+            // Actualizar cliente
+            $client = $this->clientService->updateClient($id, $request);
+            // Actualizar titular
+            $this->titularService->updateTitular($id, $request, $client);
+            // Actualizar o crear direcciones
+            $this->directionService->updateDirections($request, $client);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Cliente actualizado exitosamente',
+            ], 201);
+        }catch(\Exception $e){
+            DB::rollBack();
+
+            return response()->json([
+                'error' => 'Error al actualizar cliente',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

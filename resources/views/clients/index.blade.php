@@ -22,41 +22,35 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="clientsTable" class="table table-bordered table-striped table-sm">
-                        <thead>
-                            <tr>
-                                <th>N°</th>
-                                <th>Nombres y apellidos</th>
-                                <th>DNI</th>
-                                <th>Direcciones</th>
-                                <th>Barrios</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{-- @foreach ($zones as $zone) --}}
+                    <div class="table-responsive">
+                        <table id="clientsTable" class="table table-bordered table-striped table-sm">
+                            <thead>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td style="text-align: center">
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" class="btn btn-success btnEdit" data-toggle="modal"
-                                                data-target="#editModal" data-id=>
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </button>                                            
-                                        </div>
-                                    </td>
+                                    <th>N°</th>
+                                    <th>Nombres y apellidos</th>
+                                    <th>DNI</th>
+                                    <th>Direcciones</th>
+                                    <th>Barrios</th>
+                                    <th>Acciones</th>
                                 </tr>
-                            {{-- @endforeach --}}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {{-- <td style="text-align: center">
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" class="btn btn-success btnEdit" data-toggle="modal"
+                                                    data-target="#editModal" data-id=>
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </button>                                            
+                                            </div>
+                                        </td> --}}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    @include('clients.partials.show-modal')
     @include('clients.partials.edit-modal')
 @stop
 
@@ -72,7 +66,63 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            let clientsTable = $('#clientsTable').DataTable();
+            let clientsTable = $('#clientsTable').DataTable({
+                serverSide: true,
+                responsive: true,
+                ajax: {
+                    url: "{{ route('clients.index') }}",
+                    error: function(xhr, error, code) {
+                        console.warn("Error en la petición DataTables:", code, xhr.responseText);
+                        // Aquí evitamos el alert por defecto
+                    }
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'names_lastnames',
+                        name: 'names_lastnames',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'dni',
+                        name: 'dni',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'directions',
+                        name: 'directions',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'zones',
+                        name: 'zones',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'actions',
+                        name: 'actions',
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                columnDefs: [
+                    {
+                        targets: '_all',
+                        className: 'text-center align-middle'
+                    }
+                ],        
+            });
         });
     </script>
+    @vite(['resources/js/clients/showClient.js'])
+    @vite(['resources/js/clients/editClient.js'])
 @endpush

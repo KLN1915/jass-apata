@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('names_lastnames', 100);
             $table->string('dni', 8);
+            $table->boolean('is_current')->default(1);
             $table->timestamps();
 
             $table->foreignId('client_id')->constrained('clients');
