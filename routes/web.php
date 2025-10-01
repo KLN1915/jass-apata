@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OccupationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('clients', ClientController::class)->middleware(['auth', 'verified']);
 Route::resource('zones', ZoneController::class)->middleware(['auth', 'verified']);
 Route::get('/getZones', [ZoneController::class, 'getZones']);
+Route::resource('services', ServiceController::class);
 
 Route::get('getOccupations', [OccupationController::class, 'getOccupations']);
 

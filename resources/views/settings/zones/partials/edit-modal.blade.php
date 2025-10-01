@@ -14,9 +14,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="">Nombre</label>
-                                <input id="name" type="text" name="name" class="form-control name" placeholder="Ingrese el nombre del barrio">
-                                <span class="text-danger errors nameError"></span>
+                                <label for="edit-name">Nombre</label>
+                                <input id="edit-name" type="text" name="name" class="form-control" placeholder="Ingrese el nombre del barrio">
+                                <span class="text-danger errors" id="edit-name-error"></span>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 import { resetModal } from '../helpers/resetModal'
 import { cleanInputs } from '../helpers/cleanInputs';
+import { showErrors } from '../helpers/showErrors';
 
 const form = document.querySelector('#createForm')
 const url = form.action
@@ -99,12 +100,7 @@ form.addEventListener('submit', (e) => {
 
             if (error.response && error.response.status === 422) {
                 const errors = error.response.data.errors;
-                console.log(errors);
-
-                if (errors.name) {
-                    document.querySelectorAll('.name')[0].classList.add('is-invalid')
-                    document.querySelectorAll('.nameError')[0].textContent = errors.name[0]
-                }
+                showErrors(errors, 'create')
             }
         });
 });

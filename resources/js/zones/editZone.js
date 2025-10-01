@@ -1,5 +1,6 @@
 import { resetModal } from '../helpers/resetModal'
 import { cleanInputs } from '../helpers/cleanInputs'
+import { showErrors } from '../helpers/showErrors'
 
 const form = document.querySelector('#editForm')
 const url = form.action
@@ -15,7 +16,7 @@ document.querySelectorAll('.btnEdit').forEach(btn => {
             .then(response => {
                 form.setAttribute('data-id', response.data.data.id);
 
-                const nameInput = document.getElementById('name')
+                const nameInput = document.getElementById('edit-name')
                 nameInput.value = response.data.data.name
                 $('#editModal').modal('show');                
             })
@@ -49,7 +50,7 @@ form.addEventListener('submit', (e) => {
             Swal.fire({
                 title: 'Éxito',
                 text: response.data.message, // Axios ya parsea JSON
-                type: 'success',
+                icon: 'success',
                 confirmButtonText: 'OK'
             }).then(() => {
                 window.location.href = url;
@@ -61,18 +62,13 @@ form.addEventListener('submit', (e) => {
             Swal.fire({
                 title: 'Error',
                 text: 'Hubo un problema al actualizar los datos. Por favor, revisa los campos.',
-                type: 'error',
+                icon: 'error',
                 confirmButtonText: 'OK'
             });
 
             if (error.response && error.response.status === 422) {
                 const errors = error.response.data.errors;
-                console.log(errors);
-
-                if (errors.name) {
-                    document.querySelectorAll('.name')[1].classList.add('is-invalid')
-                    document.querySelectorAll('.nameError')[1].textContent = errors.name[0]
-                }
+                showErrors(errors, 'edit')
             }
         });
 });
