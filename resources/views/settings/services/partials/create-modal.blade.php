@@ -43,8 +43,8 @@
                                 <label for="">Periodo de cobro</label>
                                 <select id="create-chargePeriod" name="chargePeriod" class="form-control">
                                     <option value="" selected="">Seleccionar periodo</option>
-                                    {{-- <option value="1">MENSUAL</option> --}}
-                                    <option value="12">ANUAL</option>
+                                    {{-- <option value="MENSUAL">MENSUAL</option> --}}
+                                    <option value="ANUAL">ANUAL</option>
                                 </select>
                                 <span class="text-danger errors" id="create-chargePeriod-error"></span>
                             </div>
@@ -54,47 +54,7 @@
                         {{-- checkbox condicional --}}
                     </div>
                     <div class="row" id="create-finesContainer">
-                        {{-- <div class="col-md-8">
-                            <label for="">Fecha de vencimiento</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Cada</span>
-                                </div>
-                                <input type="number" class="form-control col-md-3" min="1" max="31" placeholder="dd">
-                                <select name="period" class="form-control">
-                                    <option value="" selected="">Seleccionar mes</option>
-                                    <option value="1">Enero</option>
-                                    <option value="2">Febrero</option>
-                                    <option value="3">Marzo</option>
-                                    <option value="4">Abril</option>
-                                    <option value="5">Mayo</option>
-                                    <option value="6">Junio</option>
-                                    <option value="7">Julio</option>
-                                    <option value="8">Agosto</option>
-                                    <option value="9">Setiembre</option>
-                                    <option value="10">Octubre</option>
-                                    <option value="11">Noviembre</option>
-                                    <option value="12">Diciembre</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="name">Interés</label>
-                            <div class="input-group">
-                                <div class="input-group mt-0">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text rounded-left" id="basic-addon2">S/.</span>
-                                    </div> 
-                                    <input 
-                                        type="text" 
-                                        name="price" 
-                                        class="form-control"
-                                        placeholder="00.00"
-                                    >
-                                    <span class="text-danger errors create-permanence-error"></span>
-                                </div>
-                            </div>
-                        </div> --}}
+                        {{-- finesInputs condicional --}}
                     </div>                    
                 </div>
                 <div class="modal-footer">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Clients\StoreClientRequest;
 use App\Http\Requests\Clients\UpdateClientRequest;
 use Illuminate\Http\Request;
+use App\Models\Client;
 use App\Services\ClientService;
 use App\Services\HistoryTitularService;
 use App\Services\OccupationService;
@@ -19,6 +20,13 @@ class ClientController extends Controller
         private HistoryTitularService $titularService,
         private DirectionService $directionService,
     ) {}
+
+    public function getAssociateds(Request $request)
+    {
+        $data = $this->clientService->getAssociateds($request);
+
+        return response()->json($data);
+    }
 
     /**
      * Display a listing of the resource.

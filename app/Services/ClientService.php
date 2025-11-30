@@ -5,8 +5,38 @@ namespace App\Services;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
 use App\Models\Client;
+use App\Models\HistoryTitular;
 
 class ClientService{
+    public function getAssociateds($request){
+        $search = $request->get('search');
+
+        // $clients = Client::with('currentTitular')
+        //     ->orWhere('names_lastnames', 'LIKE', "%{$search}%")
+        //     ->orWhere('dni', 'LIKE', "%{$search}%")
+        //     ->limit(5)
+        //     ->get();
+
+        $titulars = HistoryTitular::query()
+            ->where('is_current', 1)
+            ->where(function ($q) use ($search) {
+                $q->where('names_lastnames', 'LIKE', "%{$search}%")
+                ->orWhere('dni', 'LIKE', "%{$search}%");
+            })
+            // ->with('client') // si quieres también el cliente
+            ->limit(5)
+            ->get();
+
+        $data = $titulars->map(function($titular){
+            return [
+                'id' => $titular->client_id,
+                'text' => $titular->names_lastnames . ' - ' . $titular->dni,
+            ];
+        });
+
+        return $data;
+    }
+
     public function getClientsData(){
         try {
             $clients = Client::with(['currentTitular', 'directions.zone']);

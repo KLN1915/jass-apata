@@ -19,7 +19,7 @@ periodSelect.addEventListener('change', (e) => {
     if(e.target.value !== ""){
         const selectValue = e.target.value
         switch(selectValue){
-            case "1":
+            case "MENSUAL":
                 finesContainer.innerHTML = ''
                 checkboxContainer.innerHTML = `
                     <input value="1" name="lateFee" type="checkbox" class="form-check-input" id="create-fineCheckbox" name="lateFee">
@@ -27,7 +27,7 @@ periodSelect.addEventListener('change', (e) => {
                 `
                 // insertMonthlyInputs()
                 break
-            case "12":
+            case "ANUAL":
                 finesContainer.innerHTML = ''
                 checkboxContainer.innerHTML = `
                     <input value="1" name="lateFee" type="checkbox" class="form-check-input" id="create-fineCheckbox">

@@ -16,6 +16,11 @@ class ServiceController extends Controller
         private LateFeeService $lateFeeService,
     ) {}
 
+    public function getServices()
+    {
+        return response()->json(Service::select('id', 'name', 'charge_period', 'price')->get());
+    }
+
     /**
      * Display a listing of the resource.
      */

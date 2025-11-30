@@ -27,18 +27,18 @@ class StoreServiceRequest extends FormRequest
             //Service
             'name' => 'required|unique:services,name',
             'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
-            'chargePeriod' => 'required|in:1,12',
+            'chargePeriod' => 'required|in:MENSUAL,ANUAL',
             'lateFee' => 'boolean',
 
             //Latefee
             // Si lateFee=1 y chargePeriod=12 => solo period_day es requerido
             'period_day' => [
-                Rule::requiredIf(fn () => $this->lateFee == 1 && $this->chargePeriod == 12),
+                Rule::requiredIf(fn () => $this->lateFee == 1 && $this->chargePeriod == 'ANUAL'),
                 'numeric',
             ],
             // Si lateFee=1 y chargePeriod != 12 => ambos requeridos
             'period_month' => [
-                Rule::requiredIf(fn () => $this->lateFee == 1 && $this->chargePeriod != 12),
+                Rule::requiredIf(fn () => $this->lateFee == 1 && $this->chargePeriod != 'ANUAL'),
                 'numeric',
             ],
             'latefee_amount' => 'required_if:lateFee,1,numeric|regex:/^\d+(\.\d{1,2})?$/',

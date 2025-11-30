@@ -360,6 +360,11 @@ return [
             ],
         ],
         [
+            'text' => 'Contratos',
+            'url' => '/contracts',
+            'icon' => 'fas fa-file-contract',
+        ],
+        [
             'text' => 'Ajustes',
             'icon' => 'fas fa-wrench',
             'submenu' => [

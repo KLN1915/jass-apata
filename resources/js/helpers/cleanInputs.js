@@ -65,5 +65,18 @@ export function cleanInputs(container) {
                 if (errorSpan) errorSpan.textContent = '';
             });
         }
-    });
+
+        // 🔹 Caso especial: Datetimepicker
+        let datepickerDiv = null;
+        const nextElement = input.nextElementSibling;
+
+        // Comprueba si el siguiente elemento existe y coincide con el selector de datetimepicker
+        if (nextElement && nextElement.matches('div[data-toggle="datetimepicker"]')) {
+            datepickerDiv = nextElement;
+            datepickerDiv.addEventListener('click', () => {
+                input.classList.remove('is-invalid');
+                if (errorSpan) errorSpan.textContent = '';
+            })
+        }
+    })
 }

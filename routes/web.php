@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OccupationController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ContractController;
+use App\Http\Controllers\HistoryTitularController;
 use App\Http\Controllers\ZoneController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,11 +33,22 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::resource('clients', ClientController::class)->middleware(['auth', 'verified']);
+//Clients
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::resource('clients', ClientController::class);
+    Route::get('getOccupations', [OccupationController::class, 'getOccupations']);
+    Route::get('getAssociateds', [ClientController::class, 'getAssociateds']);
+});
+//Contracts
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::resource('contracts', ContractController::class);
+    Route::post('contracts/{id}/change-contract-state', [ContractController::class, 'changeContractState']);
+});
+//Zones
 Route::resource('zones', ZoneController::class)->middleware(['auth', 'verified']);
-Route::get('/getZones', [ZoneController::class, 'getZones']);
-Route::resource('services', ServiceController::class);
-
-Route::get('getOccupations', [OccupationController::class, 'getOccupations']);
+Route::get('/getZones', [ZoneController::class, 'getZones'])->middleware(['auth', 'verified']);
+//Services
+Route::resource('services', ServiceController::class)->middleware(['auth', 'verified']);
+Route::get('/getServices', [ServiceController::class, 'getServices'])->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
