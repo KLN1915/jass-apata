@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreServiceRequest;
+use App\Http\Requests\AdditionalServices\StoreAdditionalServiceRequest;
+use App\Services\AdditionalServiceService;
 use App\Models\AdditionalService;
-use App\Models\Service;
-use App\Services\ServiceService;
-use App\Services\LateFeeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ServiceController extends Controller
+class AdditionalServiceController extends Controller
 {
     public function __construct(
-        private ServiceService $serviceService,
-        private LateFeeService $lateFeeService,
+        private AdditionalServiceService $addServiceService,
     ) {}
 
-    public function getServices()
-    {
-        return response()->json(Service::select('id', 'name', 'charge_period', 'price')->get());
+    public function getAdditionalServices(){
+        return response()->json(AdditionalService::get());
     }
 
     /**
@@ -27,10 +23,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::with('lateFee')->get();
-        $addServices = AdditionalService::get();
-
-        return view('settings.services.index', compact('services', 'addServices'));
+        //
     }
 
     /**
@@ -44,24 +37,23 @@ class ServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreServiceRequest $request)
+    public function store(StoreAdditionalServiceRequest $request)
     {
         try{
             DB::beginTransaction();
 
-            $service = $this->serviceService->createService($request);
-            $this->lateFeeService->createLateFee($service, $request);
+            $this->addServiceService->createAddService($request);
 
             DB::commit();
 
             return response()->json([
-                'message' => 'Servicio creado exitosamente',
+                'message' => 'Servicio adicional creado exitosamente',
             ], 201);
         }catch(\Exception $e){
             DB::rollBack();
 
             return response()->json([
-                'error' => 'Error al registrar servicio',
+                'error' => 'Error al registrar servicio adicional',
                 'details' => $e->getMessage()
             ], 500);
         }
@@ -70,7 +62,7 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(AdditionalService $additionalService)
     {
         //
     }
@@ -78,7 +70,7 @@ class ServiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(AdditionalService $additionalService)
     {
         //
     }
@@ -86,7 +78,7 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, AdditionalService $additionalService)
     {
         //
     }
@@ -94,7 +86,7 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(AdditionalService $additionalService)
     {
         //
     }

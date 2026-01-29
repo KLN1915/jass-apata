@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdditionalServiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OccupationController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\DebtController;
 use App\Http\Controllers\HistoryTitularController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
@@ -20,11 +23,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -42,7 +45,19 @@ Route::middleware(['auth', 'verified'])->group(function(){
 //Contracts
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('contracts', ContractController::class);
+    Route::get('getContracts', [ContractController::class, 'getContracts']);
     Route::post('contracts/{id}/change-contract-state', [ContractController::class, 'changeContractState']);
+});
+//Debts
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('debts/{id}', [DebtController::class, 'getAllDebts']);
+    Route::get('debts/{id}/bill', [DebtController::class, 'generatePdfBill']);
+});
+//Payments
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::resource('payments', PaymentController::class);
+    Route::get('payments/{id}/receipt', [PaymentController::class, 'generatePdfReceipt']);
+    Route::post('payments/{id}/null-payment', [PaymentController::class, 'nullPayment']);
 });
 //Zones
 Route::resource('zones', ZoneController::class)->middleware(['auth', 'verified']);
@@ -50,5 +65,8 @@ Route::get('/getZones', [ZoneController::class, 'getZones'])->middleware(['auth'
 //Services
 Route::resource('services', ServiceController::class)->middleware(['auth', 'verified']);
 Route::get('/getServices', [ServiceController::class, 'getServices'])->middleware(['auth', 'verified']);
+//Additional Services
+Route::resource('additional-services', AdditionalServiceController::class)->middleware(['auth', 'verified']);
+Route::get('/getAdditionalServices', [AdditionalServiceController::class, 'getAdditionalServices'])->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

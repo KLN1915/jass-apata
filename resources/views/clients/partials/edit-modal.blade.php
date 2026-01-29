@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('clients.store') }}" method="POST" id="editForm">
+            <form action="{{ route('clients.store') }}" class="p-3" method="POST" id="editForm">
                 @csrf
                 <div class="bs-stepper" id="edit-stepper">
                     <div class="bs-stepper-header" role="tablist">

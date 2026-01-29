@@ -3,10 +3,14 @@
 namespace App\Services;
 
 use App\Models\AdditionalDebt;
-use App\Models\Contract;
+use App\Services\ContractService;
 
 class AdditionalDebtService
 {
+    public function __construct(
+        private ContractService $contractService,
+    ) {}
+
     // Crear deuda adicional
     public function evaluateInstallation($contract, $request)
     {
@@ -118,6 +122,70 @@ class AdditionalDebtService
                 'payed' => 0,
                 'contract_id' => $contractId
             ]);
+        }
+    }
+
+    // Obtener las deudas adicionales
+    public function getAllAdditionalDebts($contractId){
+        $addDebtsData = AdditionalDebt::where('contract_id', $contractId)
+            ->where('payed', 0)
+            ->get()
+            ->map(function($addDebt){
+                $addDebt->subTotal = $addDebt->original_amount - $addDebt->amount_payed;
+                return $addDebt;
+            });
+
+        $totalAddDebts = $addDebtsData->sum('subTotal');
+
+        return[
+            'addDebtsData' => $addDebtsData,
+            'totalAddDebts' => $totalAddDebts
+        ];
+    }
+
+    public function payAdditionalDebts($additionalDebts)
+    {
+        foreach($additionalDebts as $addDebtId => $amountPayed){
+            $addDebt = AdditionalDebt::find($addDebtId);
+            $amountPayed = (float) $amountPayed;
+
+            $addDebt->update([
+                'amount_payed' => $addDebt->amount_payed + $amountPayed
+            ]);
+            
+            $this->evaluateIfPayed($addDebt->id);
+        }
+    }
+
+    private function evaluateIfPayed($addDebtId)
+    {
+        $additionalDebt = AdditionalDebt::find($addDebtId);
+
+        if($additionalDebt->original_amount - $additionalDebt->amount_payed == 0){
+            $additionalDebt->update([
+                'payed' => 1
+            ]);
+
+            $this->contractService->changeContractState($additionalDebt->contract_id);
+        }else{
+            $additionalDebt->update([
+                'payed' => 0
+            ]);
+        }
+    }
+
+    //retornar deudas a sin pagar
+    public function changeAmountPayed($additionalDebts)
+    {
+        foreach($additionalDebts as $addDebtId => $amountPayed){
+            $addDebt = AdditionalDebt::find($addDebtId);
+            $amountPayed = (float) $amountPayed;
+
+            $addDebt->update([
+                'amount_payed' => $addDebt->amount_payed - $amountPayed
+            ]);
+            
+            $this->evaluateIfPayed($addDebt->id);
         }
     }
 }

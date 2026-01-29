@@ -18,6 +18,14 @@ class ContractController extends Controller
         private DebtService $debtService,
         private AdditionalDebtService $additionalDebtService,
     ){}
+
+    public function getContracts(Request $request)
+    {
+        $data = $this->contractService->getContracts($request);
+
+        return response()->json($data);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -78,7 +86,8 @@ class ContractController extends Controller
      */
     public function edit(string $id)
     {
-        return $this->contractService->getContractData($id);
+        $data = $this->contractService->getContractData($id);
+        return response()->json($data);
     }
 
     /**

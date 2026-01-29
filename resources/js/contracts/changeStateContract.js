@@ -142,7 +142,6 @@ $(document).on('click', '.btnChangeState', async function (e) {
 
     axios.get(urlDetails)
         .then(response => {
-
             // limpiar listeners
             let newBtn = modalBtn.cloneNode(true)
             modalBtn.parentNode.replaceChild(newBtn, modalBtn)

@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Debt extends Model
+class AdditionalService extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'period', 'type', 'amount', 'contract_id',
+        'name',
+        'description'
     ];
-
-    public function contract()
-    {
-        return $this->belongsTo(Contract::class, 'contract_id');
-    }
 }

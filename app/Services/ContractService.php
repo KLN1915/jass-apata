@@ -11,6 +11,36 @@ use App\Models\AdditionalDebt;
 
 class ContractService
 {
+    public function getContracts($request)
+    {
+        $search = $request->get('search');
+
+        $contracts = Contract::query()
+            ->where('code', 'LIKE', "%{$search}%")
+            ->orWhereHas('direction', function($q) use ($search){
+                $q->where('name', 'LIKE', "%{$search}%")
+                ->orWhereHas('client.currentTitular', function ($q) use ($search) {
+                    $q->where('names_lastnames', 'LIKE', "%{$search}%");
+                    // ->orWhere('dni', 'LIKE', "%{$search}%");
+                });
+            })
+            // ->where('status', 'ACTIVO')
+            ->limit(5)
+            ->get();
+
+        $data = $contracts->map(function($contract){
+            return [
+                'id' => $contract->id,
+                'text' => 
+                    $contract->code . ' - ' .
+                    $contract->direction->client->currentTitular->names_lastnames . ' - ' .
+                    $contract->direction->name
+            ];
+        });
+
+        return $data;
+    }
+
     //Datatable info
     public function getContractsData()
     {
@@ -26,9 +56,11 @@ class ContractService
                     return $contract->direction->client->currentTitular->names_lastnames . ' - ' . $contract->direction->name;
                 })
                 ->addColumn('debt', function ($contract) {
-                    if ($contract->totalDebts() != 0) {
+                    $totals = $contract->totalDebts();
+
+                    if ($totals['total'] != 0) {
                         return (
-                            'S/. ' . $contract->totalDebts() .
+                            'S/. ' . $totals['total'] .
                             '<br/><button type="button" class="btn btn-link btnDebts" data-id="' . $contract->id . '">Ver deudas</button>'
                         );
                     } else {
@@ -159,11 +191,11 @@ class ContractService
         }
         $installation = AdditionalDebt::where('contract_id', $id)->first();
 
-        return response()->json([
+        return [
             'contract' => $contract,
             'debt' => $debt,
             'installation' => $installation
-        ]);
+        ];
     }
 
     //Editar contrato

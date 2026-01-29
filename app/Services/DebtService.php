@@ -45,6 +45,8 @@ class DebtService
                     'type' => 'NORMAL',
                     'amount' => 30.00,
                     'contract_id' => $contractId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ];
             } else if ($year >= 2025) {
                 $debts[] = [
@@ -52,6 +54,8 @@ class DebtService
                     'type' => 'NORMAL',
                     'amount' => Service::find($serviceId)->price,
                     'contract_id' => $contractId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ];
             }
         }
@@ -67,7 +71,9 @@ class DebtService
             'period' => $currentYear,
             'type' => 'NORMAL',
             'amount' => Service::find($serviceId)->price,
-            'contract_id' => $contractId
+            'contract_id' => $contractId,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 
@@ -199,5 +205,43 @@ class DebtService
     private function deletePreviousData($contractId)
     {
         Debt::where('contract_id', $contractId)->delete();
+    }
+
+    //Obtener deudas
+    public function getAllDebts($contractId)
+    {
+        $debtsData = Debt::where('contract_id', $contractId)
+            ->where('payed', 0)
+            ->get()
+            ->map(function($debt){
+                $debt->subTotal = $debt->amount;
+                return $debt;
+            });
+
+        $totalDebts = $debtsData->sum('subTotal');
+
+        return[
+            'debtsData' => $debtsData,
+            'totalDebts' => $totalDebts
+        ];
+    }
+
+    //pagar deudas
+    public function payDebts($debtIds)
+    {
+        sort($debtIds);
+        Debt::whereIn('id', $debtIds)
+            ->update([
+                'payed' => 1
+            ]);
+    }
+
+    //retornar deudas a sin pagar
+    public function changePayedToFalse($debtsIds)
+    {
+        Debt::whereIn('id', $debtsIds)
+            ->update([
+                'payed' => 0
+            ]);
     }
 }

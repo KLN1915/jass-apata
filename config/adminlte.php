@@ -344,6 +344,16 @@ return [
         //     'icon' => 'fas fa-fw fa-lock',
         // ],
         [
+            'text' => 'Inicio',
+            'url' => '/',
+            'icon' => 'fas fa-home',
+        ],
+        [
+            'text' => 'Usuarios',
+            'url' => '/users',
+            'icon' => 'fas fa-user-tie',
+        ],
+        [
             'text' => 'Asociados',
             'icon' => 'fas fa-address-book',
             'submenu' => [
@@ -352,17 +362,22 @@ return [
                     'url' => '/clients',
                     'icon' => 'fas fas fa-users',
                 ],
-                [
-                    'text' => 'Instituciones',
-                    'url' => '/institutions',
-                    'icon' => 'fas fa-school',
-                ],
+                // [
+                //     'text' => 'Instituciones',
+                //     'url' => '/institutions',
+                //     'icon' => 'fas fa-school',
+                // ],
             ],
         ],
         [
             'text' => 'Contratos',
             'url' => '/contracts',
             'icon' => 'fas fa-file-contract',
+        ],
+        [
+            'text' => 'Pagos',
+            'url' => '/payments',
+            'icon' => 'fas fa-money-bill',
         ],
         [
             'text' => 'Ajustes',
@@ -378,11 +393,11 @@ return [
                     'url' => '/services',
                     'icon' => 'fas fa-toolbox',
                 ],
-                [
-                    'text' => 'Roles y permisos',
-                    'url' => '#',
-                    'icon' => 'fas fa-user-lock',
-                ],
+                // [
+                //     'text' => 'Roles y permisos',
+                //     'url' => '#',
+                //     'icon' => 'fas fa-user-lock',
+                // ],
             ],
         ],
         // ['header' => 'labels'],

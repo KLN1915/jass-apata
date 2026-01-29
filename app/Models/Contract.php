@@ -47,7 +47,12 @@ class Contract extends Model
         $debtsAmount = $this->debts()->sum('amount');
         $additionalDebtsAmount = $this->additionalDebts()->sum('original_amount') - $this->additionalDebts()->sum('amount_payed');
 
-        return $debtsAmount + $additionalDebtsAmount;
+        // return $debtsAmount + $additionalDebtsAmount;
+        return [
+            'debtsAmount' => $debtsAmount,
+            'additionalDebtsAmount' => $additionalDebtsAmount,
+            'total' => $debtsAmount + $additionalDebtsAmount
+        ];
     }
 
     public function service()
