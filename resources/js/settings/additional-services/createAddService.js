@@ -1,3 +1,7 @@
+import { resetModal } from '../../helpers/resetModal'
+import { cleanInputs } from '../../helpers/cleanInputs';
+// import { showErrors } from '../helpers/showErrors';
+
 const form = document.getElementById('addServiceForm')
 const url = form.action
 

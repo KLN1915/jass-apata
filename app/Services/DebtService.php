@@ -214,7 +214,7 @@ class DebtService
             ->where('payed', 0)
             ->get()
             ->map(function($debt){
-                $debt->subTotal = $debt->amount;
+                $debt->subTotal = $debt->amount + $debt->interest_amount ?? 0;
                 return $debt;
             });
 

@@ -16,4 +16,24 @@ class ServiceService{
 
         return $service;
     }
+
+    public function updateService($request, $id){
+
+        $service = Service::findOrFail($id);
+        
+        $service->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'charge_period' => $request->chargePeriod,
+            'late_fee' => $request->lateFee ?? 0,
+        ]);
+
+        return $service;
+    }
+
+    public function getServiceData($id){
+        $service = Service::with('lateFee')->find($id);
+
+        return response()->json($service);
+    }
 }

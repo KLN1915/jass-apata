@@ -14,4 +14,13 @@ class AdditionalServiceService{
 
         return $addService;
     }
+
+    public function updateAddService($request, $id){
+        $addService = AdditionalService::find($id)->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return $addService;
+    }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Services;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
-class StoreServiceRequest extends FormRequest
+class UpdateServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,11 @@ class StoreServiceRequest extends FormRequest
     {
         return [
             //Service
-            'name' => 'required|unique:services,name',
+            'name' => [
+                'required',
+                Rule::unique('additional_services', 'name')
+                    ->ignore($this->id)
+            ],
             'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
             'chargePeriod' => 'required|in:MENSUAL,ANUAL',
             'lateFee' => 'boolean',

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 25);
+            $table->string('name', 25)->unique();
             $table->decimal('price', 10, 2);
             $table->enum('charge_period', ['MENSUAL', 'ANUAL']);
             $table->boolean('late_fee')->default(0);

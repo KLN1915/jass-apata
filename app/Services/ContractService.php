@@ -8,6 +8,7 @@ use App\Models\Contract;
 use App\Models\Direction;
 use App\Models\Debt;
 use App\Models\AdditionalDebt;
+use Symfony\Component\HttpFoundation\Request;
 
 class ContractService
 {
@@ -42,7 +43,7 @@ class ContractService
     }
 
     //Datatable info
-    public function getContractsData()
+    public function getContractsData(Request $request)
     {
         try {
             $contracts = Contract::with(['direction.client.currentTitular']);
@@ -57,12 +58,18 @@ class ContractService
                 })
                 ->addColumn('debt', function ($contract) {
                     $totals = $contract->totalDebts();
+                    $statusForCut = $contract->statusForCut();
 
                     if ($totals['total'] != 0) {
-                        return (
-                            'S/. ' . $totals['total'] .
-                            '<br/><button type="button" class="btn btn-link btnDebts" data-id="' . $contract->id . '">Ver deudas</button>'
-                        );
+                        $html = 'S/. ' . $totals['total'];
+                        
+                        if ($statusForCut) {
+                            $html .= '<br/><span class="badge bg-warning mb-1">' . $statusForCut . '</span>';
+                        }
+                        
+                        $html .= '<br/><button type="button" class="btn btn-link btnDebts" data-id="' . $contract->id . '">Ver deudas</button>';
+                        
+                        return $html;
                     } else {
                         return 'SIN DEUDA';
                     }
@@ -100,7 +107,7 @@ class ContractService
                     }
                 })
                 ->rawColumns(['debt', 'status', 'actions'])
-                ->filter(function ($query) {
+                ->filter(function ($query) use ($request){
                     $this->applyFilters($query);
                 })
                 ->order(function ($query) {
@@ -115,6 +122,9 @@ class ContractService
     private function applyFilters($query)
     {
         $search = request('search')['value'] ?? null;
+        $zone = request('zone');
+        $debts = request('debts');
+        $status = request('status');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -127,6 +137,20 @@ class ContractService
                         $qd->where('name', 'like', "%{$search}%");
                     });
             });
+        }
+
+        if ($zone && $zone != 'Seleccionar') {
+            $query->whereHas('direction', function ($q) use ($zone) {
+                $q->where('zone_id', $zone);
+            });
+        }
+
+        if ($status && $status != 'Seleccionar') {
+            $query->where('status', $status);
+        }
+
+        if ($debts === '+3 AÑOS') {
+            $query->forCut();
         }
     }
 

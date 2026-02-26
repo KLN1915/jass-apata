@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdditionalServices\StoreAdditionalServiceRequest;
+use App\Http\Requests\AdditionalServices\UpdateAdditionalServiceRequest;
 use App\Services\AdditionalServiceService;
 use App\Models\AdditionalService;
 use Illuminate\Http\Request;
@@ -78,9 +79,26 @@ class AdditionalServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AdditionalService $additionalService)
+    public function update(UpdateAdditionalServiceRequest $request, string $id)
     {
-        //
+        try{
+            DB::beginTransaction();
+
+            $this->addServiceService->updateAddService($request, $id);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Servicio adicional actualizado exitosamente',
+            ], 201);
+        }catch(\Exception $e){
+            DB::rollBack();
+
+            return response()->json([
+                'error' => 'Error al actualizar servicio adicional',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

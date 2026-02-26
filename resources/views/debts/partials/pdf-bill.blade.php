@@ -12,16 +12,12 @@
       padding: 15px;
     }
 
-    .header {
+    header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 2px solid #00aaff;
       padding-bottom: 10px;
-    }
-
-    .header img {
-      height: 60px;
     }
 
     .header-info {
@@ -32,14 +28,6 @@
     .header-info h2 {
       margin: 0;
       color: #0078c2;
-    }
-
-    .qr-box {
-      text-align: right;
-    }
-
-    .qr-box small {
-      display: block;
     }
 
     .client-info {
@@ -100,20 +88,19 @@
   </style>
 </head>
 <body>
-
-  <div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Drop_of_water.svg/1024px-Drop_of_water.svg.png"/>
-    <div class="header-info">
-      <h2>Institución Comunal JASS-Apata</h2>
-      <p>Recibo de Agua - Desagüe
-      </p>
-    </div>
-    <!--<div class="qr-box">
-      <small>RUC: 1076777777</small>
-      <small>Rec. Nº 1</small>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=1076777777" alt="QR">
-    </div>-->
-  </div>
+  <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+    <tr>
+      <!-- Logo -->
+      <td width="20%" align="left" style="vertical-align: middle;">
+        <img src="{{ asset('dist/img/jass-logo.png') }}" style="width: 100px;">
+      </td>
+      <!-- Info -->
+      <td width="80%" align="left" style="vertical-align: middle;">
+        <h2 style="margin: 0;">Institución Comunal JASS-Apata</h2>
+        <p style="margin: 0;">Recibo de Agua - Desagüe</p>
+      </td>
+    </tr>
+</table>
 
   <div class="client-info">
     {{-- {{$contract_debts['contract_info']}} --}}
@@ -123,10 +110,11 @@
     <strong>N° Contrato:</strong> {{ $contractData['contract']->code }}<br>
     <strong>Fecha:</strong> {{ now()->format('d-m-Y') }}
   </div>
+  <br>
 
-  @if(!empty($debts))
+  @if(isset($debts['debtsData']) && count($debts['debtsData']) > 0)
+  <strong>DEUDAS DE SERVICIO</strong>
   <table class="table">
-    <strong>Deudas</strong>
     <thead>
       <tr>
         <th>ITEM</th>
@@ -135,7 +123,7 @@
         {{-- <th>FECHA DE EMISIÓN</th> --}}
         {{-- <th>FECHA DE VENCIMIENTO</th> --}}
         <th>MONTO</th>
-        {{-- <th>INTERÉS</th> --}}
+        <th>INTERÉS</th>
         <th>TOTAL</th>
       </tr>
     </thead>
@@ -148,7 +136,7 @@
         {{-- <td>{{ $debt['issue_date'] }}</td> --}}
         {{-- <td>{{ $debt['due_date'] }}</td> --}}
         <td>{{ $debt->amount }}</td>
-        {{-- <td>{{ $debt['interest_percentage'] }}</td> --}}
+        <td>{{ $debt->interest_amount ?? '--' }}</td>
         <td>{{ $debt->subTotal }}</td>
       </tr>
       @endforeach
@@ -159,9 +147,9 @@
   </div>
   @endif
 
-  @if(!empty($additionalDebts))
+  @if(isset($additionalDebts['addDebtsData']) && count($additionalDebts['addDebtsData']) > 0)
+  <strong>DEUDAS ADICIONALES</strong>
   <table class="table">
-    <strong>Deudas adicionales</strong>
     <thead>
       <tr>
         <th>ITEM</th>

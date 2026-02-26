@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreServiceRequest;
+use App\Http\Requests\Services\StoreServiceRequest;
+use App\Http\Requests\Services\UpdateServiceRequest;
 use App\Models\AdditionalService;
 use App\Models\Service;
 use App\Services\ServiceService;
@@ -80,15 +81,33 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return $this->serviceService->getServiceData($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateServiceRequest $request, string $id)
     {
-        //
+        try{
+            DB::beginTransaction();
+
+            $service = $this->serviceService->updateService($request, $id);
+            $this->lateFeeService->evaluateFee($service->id, $request);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Servicio actualizado exitosamente',
+            ], 201);
+        }catch(\Exception $e){
+            DB::rollBack();
+
+            return response()->json([
+                'error' => 'Error al actualizar servicio',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

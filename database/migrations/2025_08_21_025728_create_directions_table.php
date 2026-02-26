@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('directions', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->unique();
+            $table->string('name', 100);
             $table->unsignedTinyInteger('cant_beneficiaries')->default('1');
             $table->unsignedTinyInteger('permanence');
             $table->boolean('drains')->default('0');

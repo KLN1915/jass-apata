@@ -18,6 +18,45 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="form-group row mr-0">
+                            <label for="zone" class="col-sm-4 col-form-label">Barrio</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="zone">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">PROGRESO</option>
+                                    <option value="2">COCHARCAS</option>
+                                    <option value="3">LIBRE CENTRAL</option>
+                                    <option value="4">15 DE SETIEMBRE</option>
+                                    <option value="5">HUAMANTANGA</option>
+                                    <option value="6">PARIAHUANCA</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mr-0">
+                            <label for="debts" class="col-sm-4 col-form-label">Deudas</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="debts">
+                                    <option selected>Seleccionar</option>
+                                    <option value="+3 AÑOS">+ 3 AÑOS</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mr-0">
+                            <label for="status" class="col-sm-4 col-form-label">Estado</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="status">
+                                    <option selected>Seleccionar</option>
+                                    <option value="ACTIVO">ACTIVO</option>
+                                    <option value="SUSPENDIDO">SUSPENDIDO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <button id="filter-btn" type="button" class="btn btn-primary"><i class="fas fa-filter"></i> Filtrar</button>
+                            <button id="remove-filters-btn"  type="button" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table id="contractsTable" class="table table-bordered table-striped table-sm">
                             <thead>
@@ -63,11 +102,16 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            let contractsTable = $('#contractsTable').DataTable({
+            const contractsTable = $('#contractsTable').DataTable({
                 serverSide: true,
                 responsive: true,
                 ajax: {
                     url: "{{ route('contracts.index') }}",
+                    data: function (d) {
+                        d.zone = $('#zone').val();
+                        d.debts = $('#debts').val();
+                        d.status = $('#status').val();
+                    },
                     error: function(xhr, error, code) {
                         console.warn("Error en la petición DataTables:", code, xhr.responseText);
                         //Aquí evitamos el alert por defecto
@@ -116,9 +160,19 @@
                         targets: '_all',
                         className: 'text-center align-middle'
                     }
-                ],        
-            });
-        });
+                ]                
+            })
+            $('#filter-btn').click(function() {
+                // contractsTable.draw()
+                $('#contractsTable').DataTable().ajax.reload()
+            })
+            $('#remove-filters-btn').on('click', function () {
+                $('#zone').val('Seleccionar')
+                $('#debts').val('Seleccionar')
+                $('#status').val('Seleccionar')
+                $('#contractsTable').DataTable().ajax.reload()
+            })
+        })
     </script>
     @vite(['resources/js/contracts/changeStateContract.js'])
     @vite(['resources/js/contracts/editContract.js'])

@@ -142,7 +142,7 @@ $('#create-contract_id').on('select2:select', function (e) {
                             <td>${index+1}</td>
                             <td>${debt.period}</td>
                             <td>${debt.amount}</td>
-                            <td>5.00</td>
+                            <td>${debt.interest_amount ?? '--'}</td>
                             <td>${debt.subTotal}</td>
                             <td style="text-align: center">
                                 <div class="btn-group" role="group" aria-label="Basic example">

@@ -32,7 +32,7 @@ class ContractController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            return $this->contractService->getContractsData();
+            return $this->contractService->getContractsData($request);
         }
         return view('contracts.index');
     }

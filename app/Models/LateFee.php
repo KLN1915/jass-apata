@@ -15,7 +15,7 @@ class LateFee extends Model
         'service_id',
     ];
 
-    // protected $casts = [
-    //     'end_date' => 'date:d-m-Y',
-    // ];
+    protected $casts = [
+        'end_date' => 'date:Y-m-d',
+    ];
 }

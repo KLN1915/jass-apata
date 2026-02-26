@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -64,7 +64,7 @@ return [
     */
 
     'logo' => '<b>JASS Apata</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'dist/img/jass-logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -113,11 +113,11 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'dist/img/jass-logo.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
+            'width' => 240,
+            'height' => 240,
         ],
     ],
 
@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -348,27 +348,32 @@ return [
             'url' => '/',
             'icon' => 'fas fa-home',
         ],
-        [
-            'text' => 'Usuarios',
-            'url' => '/users',
-            'icon' => 'fas fa-user-tie',
-        ],
+        // [
+        //     'text' => 'Usuarios',
+        //     'url' => '/users',
+        //     'icon' => 'fas fa-user-tie',
+        // ],
         [
             'text' => 'Asociados',
-            'icon' => 'fas fa-address-book',
-            'submenu' => [
-                [
-                    'text' => 'Personas',
-                    'url' => '/clients',
-                    'icon' => 'fas fas fa-users',
-                ],
+            'url' => '/clients',
+            'icon' => 'fas fas fa-users',
+        ],
+        // [
+        //     'text' => 'Asociados',
+        //     'icon' => 'fas fa-address-book',
+        //     'submenu' => [
+                // [
+                //     'text' => 'Personas',
+                //     'url' => '/clients',
+                //     'icon' => 'fas fas fa-users',
+                // ],
                 // [
                 //     'text' => 'Instituciones',
                 //     'url' => '/institutions',
                 //     'icon' => 'fas fa-school',
                 // ],
-            ],
-        ],
+            // ],
+        // ],
         [
             'text' => 'Contratos',
             'url' => '/contracts',

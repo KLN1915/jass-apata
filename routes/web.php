@@ -10,6 +10,7 @@ use App\Http\Controllers\HistoryTitularController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\ServiceController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,7 +29,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {
-    return view('dashboard');
+    $userName = Auth::user()->name;
+
+    return view('dashboard', compact('userName'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

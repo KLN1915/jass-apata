@@ -39,11 +39,17 @@
                                         <td>{{ $service->charge_period }}</td>
                                         <td>{{ $service->price }}</td>
                                         <td>{{ $service->lateFee->amount ?? '--' }}</td>
-                                        <td>{{ $service->lateFee->end_date ?? '--' }}</td>
+                                        <td>
+                                            {{ 
+                                                $service->lateFee?->end_date 
+                                                    ? $service->lateFee->end_date->translatedFormat('d \d\e F') 
+                                                    : '--' 
+                                            }}
+                                        </td>
                                         <td style="text-align: center">
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                                 <button type="button" class="btn btn-success btnEdit" data-toggle="modal"
-                                                    data-target="#editModal" data-id={{ $service->id }}>
+                                                    data-id={{ $service->id }}>
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </button>                                            
                                             </div>
@@ -60,12 +66,12 @@
 
     <div class="row mt-3">
         <div class="col-md-12">
-            <div class="card card-outline card-success">
+            <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title"><b>Servicios adicionales</b></h3>
                     <div class="card-tools">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addServiceModal">
-                            <i class="fas fa-plus"></i> Agregar servicio
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addServiceModal">
+                            <i class="fas fa-plus"></i> Agregar servicio adicional
                         </button>
                         @include('settings.services.additional-services.modal')
                     </div>
@@ -88,13 +94,14 @@
                                     <td>{{ $service->description }}</td>
                                     <td style="text-align: center">
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" class="btn btn-success btnEdit" data-toggle="modal"
-                                                data-target="#editModal" data-id={{ $service->id }}>
+                                            <button type="button" class="btn btn-success addService-btnEdit" data-toggle="modal"
+                                                data-target="#edit-AddServiceModal-{{ $service->id }}" data-id={{ $service->id }}>
                                                 <i class="fas fa-pencil-alt"></i>
                                             </button>                                            
                                         </div>
                                     </td>
                                 </tr>
+                                @include('settings.services.additional-services.edit-modal')
                             @endforeach
                         </tbody>
                     </table>
@@ -102,7 +109,7 @@
             </div>
         </div>
     </div>
-    {{-- @include('settings.services.partials.edit-modal') --}}
+    @include('settings.services.partials.edit-modal')
 @stop
 
 {{-- Push extra CSS --}}
@@ -115,7 +122,5 @@
 {{-- Push extra scripts --}}
 
 @push('js')
-<script>
-    
-</script>
+    @vite(['resources/js/settings/additional-services/editAddService.js'])
 @endpush

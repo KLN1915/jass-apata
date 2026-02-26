@@ -31,7 +31,7 @@ periodSelect.addEventListener('change', (e) => {
                 finesContainer.innerHTML = ''
                 checkboxContainer.innerHTML = `
                     <input value="1" name="lateFee" type="checkbox" class="form-check-input" id="create-fineCheckbox">
-                    <label class="form-check-label" for="create-fineCheckbox">Cobrar multa</label>
+                    <label class="form-check-label" for="create-fineCheckbox">Cobrar multa mensualmente</label>
                 `
                 insertAnnualInputs()
                 break            
