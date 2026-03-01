@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="edit-dni">DNI <span class="text-danger">*</span></label>
+                                        <label for="edit-dni">DNI</label>
                                         <input 
                                             type="text" 
                                             name="dni" 

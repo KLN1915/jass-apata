@@ -47,7 +47,7 @@ class ClientService{
                     return $client->currentTitular ? $client->currentTitular->names_lastnames : 'Sin titular';
                 })
                 ->addColumn('dni', function ($client) {
-                    return $client->currentTitular ? $client->currentTitular->dni : 'Sin titular';
+                    return $client->currentTitular->dni ? $client->currentTitular->dni : '--';
                 })
                 ->addColumn('directions', function ($client) {
                     return $client->directions->map(function($direction){

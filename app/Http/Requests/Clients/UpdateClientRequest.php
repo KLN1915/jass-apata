@@ -33,8 +33,7 @@ class UpdateClientRequest extends FormRequest
                     // ->ignore($this->route('client'), 'client_id')
             ],
             'dni' => [
-                'sometimes',
-                'required',
+                'nullable',
                 'digits:8',
                 // Rule::unique('history_titulars', 'dni')->ignore($this->route('client'))
                 Rule::unique('history_titulars', 'dni')

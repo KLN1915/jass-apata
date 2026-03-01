@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('history_titulars', function (Blueprint $table) {
             $table->id();
             $table->string('names_lastnames', 100);
-            $table->string('dni', 8);
+            $table->string('dni', 8)->nullable();
             $table->boolean('is_current')->default(1);
             $table->timestamps();
 

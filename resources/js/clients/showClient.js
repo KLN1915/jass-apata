@@ -6,7 +6,7 @@ $(document).on('click', '.btnShow', async function(e) {
     axios.get(urlShow)
         .then(response => {
             document.getElementById('show_names_lastnames').innerText = response.data.current_titular.names_lastnames
-            document.getElementById('show_dni').innerText = response.data.current_titular.dni
+            document.getElementById('show_dni').innerText = response.data.current_titular.dni || '--'
             document.getElementById('show_phone_number').innerText = response.data?.phone_number || '--'
             document.getElementById('show_datebirth').innerText = response.data?.datebirth || '--'
             document.getElementById('show_grade').innerText = response.data?.grade || '--'
@@ -30,7 +30,7 @@ $(document).on('click', '.btnShow', async function(e) {
                                 ${response.data.other_titulars.map(extitular => `
                                     <tr>
                                         <td class="text-center">${extitular.names_lastnames}</td>
-                                        <td class="text-center">${extitular.dni}</td>
+                                        <td class="text-center">${extitular.dni || '--'}</td>
                                         <td class="text-center">${extitular.updated_at}</td>
                                     </tr>
                                 `).join('')}

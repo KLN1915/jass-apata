@@ -24,7 +24,7 @@ class StoreClientRequest extends FormRequest
         return [
             //History titular
             'namesLastnames' => 'required|string|max:100|unique:history_titulars,names_lastnames',
-            'dni' => 'required|numeric|digits:8|unique:history_titulars,dni',
+            'dni' => 'nullable|numeric|digits:8|unique:history_titulars,dni',
 
             //Client
             'phoneNumber' => 'nullable|numeric|digits:9|unique:clients,phone_number',
