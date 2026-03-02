@@ -62,8 +62,8 @@ class UpdateClientRequest extends FormRequest
                 'string',
                 'max:100',
                 // Rule::unique('directions','name')->ignore($this->route('client')),
-                Rule::unique('directions', 'name')
-                    ->ignore($this->route('client'), 'client_id'), // ignora el mismo client_id
+                // Rule::unique('directions', 'name')
+                //     ->ignore($this->route('client'), 'client_id'), // ignora el mismo client_id
             ], 
             'zone_id'        => 'array',
             'zone_id.*'      => 'required|exists:zones,id', 

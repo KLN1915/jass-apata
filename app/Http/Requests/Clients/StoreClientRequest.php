@@ -37,7 +37,8 @@ class StoreClientRequest extends FormRequest
             //Directions
             // Solo se validan si se envía algún dato, de lo contrario se ignoran
             'directions'      => 'array',
-            'directions.*'    => 'required|string|max:100|unique:directions,name', 
+            // 'directions.*'    => 'required|string|max:100|unique:directions,name',
+            'directions.*'    => 'required|string|max:100',
             'zone_id'        => 'array',
             'zone_id.*'      => 'required|exists:zones,id', 
             'cant_beneficiaries'   => 'array',
