@@ -7,6 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <div class="ml-4 mt-3"><em><b>Indicación:</b> Los <b class="text-danger">*</b> son campos obligatorios</em></div>
             <form action="{{ route('clients.store') }}" class="p-3" method="POST" id="editForm">
                 @csrf
                 <div class="bs-stepper" id="edit-stepper">
@@ -32,7 +33,7 @@
                             <div class="row">
                                 <div class="col-md-9">
                                     <div class="form-group">
-                                        <label for="edit-namesLastnames">Nombres y apellidos <span class="text-danger">*</span></label>
+                                        <label for="edit-namesLastnames">Nombres y apellidos <b class="text-danger">*</b></label>
                                         <input 
                                             type="text" 
                                             name="namesLastnames"
@@ -139,7 +140,7 @@
                                                     <div class="row">
                                                         <div class="col-md-8">
                                                             <div class="form-group">
-                                                                <label>Dirección <span class="text-danger">*</span></label>
+                                                                <label>Dirección <b class="text-danger">*</b></label>
                                                                 {{-- Enviar ids de las direcciones --}}
                                                                 <input type="hidden" name="direction_ids[]">
                                                                 {{----}}
@@ -154,7 +155,7 @@
                                                         </div>
                                                         <div class="col-md-4 col-7">
                                                             <div class="form-group">
-                                                                <label>Barrio <span class="text-danger">*</span></label>
+                                                                <label>Barrio <b class="text-danger">*</b></label>
                                                                 <select name="zone_id[]" class="form-control edit-zoneSelect" value="">
                                                                     <option>Cargando barrios...</option>
                                                                 </select>
@@ -163,7 +164,7 @@
                                                         </div>
                                                         <div class="col-md-3 col-5">
                                                             <div class="form-group">
-                                                                <label># Habitantes <span class="text-danger">*</span></label>
+                                                                <label># Habitantes</label>
                                                                 <input 
                                                                     type="number" 
                                                                     name="cant_beneficiaries[]" 
@@ -176,7 +177,7 @@
                                                         </div>
                                                         <div class="col-md-3 col-6">
                                                             <div class="form-group">
-                                                                <label>Permanencia <span class="text-danger">*</span></label>
+                                                                <label>Permanencia</label>
                                                                 <div class="input-group mt-0">
                                                                     <input 
                                                                         type="number" 
@@ -194,7 +195,7 @@
                                                         </div>
                                                         <div class="col-md-3 col-6">
                                                             <div class="form-group">
-                                                                <label>Material de Predio <span class="text-danger">*</span></label>
+                                                                <label>Material de Predio</label>
                                                                 <select name="material[]" class="form-control">
                                                                     <option value="" selected>Seleccionar</option>
                                                                     <option value="RUSTICO">RÚSTICO</option>
@@ -206,7 +207,7 @@
                                                         </div>
                                                         <div class="col-md-3 col-6">
                                                             <div class="form-group">
-                                                                <label>Sumideros <span class="text-danger">*</span></label>
+                                                                <label>Sumideros</label>
                                                                 <select name="drains[]" class="form-control">
                                                                     <option value="" selected>Seleccionar</option>
                                                                     <option value="1">SI</option>

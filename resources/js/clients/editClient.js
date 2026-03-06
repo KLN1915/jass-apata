@@ -176,8 +176,8 @@ $(document).on('click', '.btnEdit', async function (e){
                     clone.querySelector('[name="zone_id[]"]').value = direction.zone_id
                     clone.querySelector('[name="cant_beneficiaries[]"]').value = direction.cant_beneficiaries
                     clone.querySelector('[name="permanence[]"]').value = direction.permanence
-                    clone.querySelector('[name="material[]"]').value = direction.material
-                    clone.querySelector('[name="drains[]"]').value = direction.drains
+                    clone.querySelector('[name="material[]"]').value = direction.material === null ? '' : direction.material
+                    clone.querySelector('[name="drains[]"]').value = direction.drains === null ? '' : direction.drains
 
                     directions.push({
                         id: direction.id,

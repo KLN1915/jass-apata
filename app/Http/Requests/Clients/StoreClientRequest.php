@@ -42,13 +42,13 @@ class StoreClientRequest extends FormRequest
             'zone_id'        => 'array',
             'zone_id.*'      => 'required|exists:zones,id', 
             'cant_beneficiaries'   => 'array',
-            'cant_beneficiaries.*' => 'required|numeric|min:1|max:255',
+            'cant_beneficiaries.*' => 'nullable|numeric|min:1|max:255',
             'permanence'   => 'array',
-            'permanence.*' => 'required|numeric|min:1|max:255',            
+            'permanence.*' => 'nullable|numeric|min:1|max:255',    
             'material'   => 'array',
-            'material.*' => 'required|in:RUSTICO,NOBLE,MIXTO',
+            'material.*' => 'nullable|in:RUSTICO,NOBLE,MIXTO',
             'drains'   => 'array',
-            'drains.*' => 'required|boolean',
+            'drains.*' => 'nullable|boolean',
         ];
     }
 

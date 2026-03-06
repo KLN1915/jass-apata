@@ -7,13 +7,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <div class="ml-4 mt-3"><em><b>Indicación:</b> Los <b class="text-danger">*</b> son campos obligatorios</em></div>
             <form action="{{ route('contracts.store') }}" method="POST" id="createForm">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="create-associated_id">Buscar cliente o institución</label>
+                                {{-- <label for="create-associated_id">Buscar cliente o institución</label> --}}
+                                <label for="create-associated_id">Buscar cliente</label>
                                 <select class="form-control" name="associated_id" id="create-associated_id">
                                     {{-- Autocomplete --}}
                                 </select>

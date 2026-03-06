@@ -64,7 +64,7 @@ $(document).on('click', '.btnShow', async function(e) {
                                 ${response.data.directions.map(direction => `
                                     <tr>
                                         <td class="text-center">${direction.name}</td>
-                                        <td class="text-center">${direction.cant_beneficiaries}</td>
+                                        <td class="text-center">${direction.cant_beneficiaries || '--'}</td>
                                         <td class="text-center">${direction.zone.name}</td>
                                         <td class="text-center">
                                             ${direction.contracted ? 
@@ -73,13 +73,20 @@ $(document).on('click', '.btnShow', async function(e) {
                                                 '<span class="badge bg-danger mb-1">NO</span>'
                                             }
                                         </td>
-                                        <td class="text-center">${direction.permanence} ${direction.permanence < 2 ? 'año' : 'años'}</td>
-                                        <td class="text-center">${direction.material}</td>
+                                        <td class="text-center">${
+                                            direction.permanence
+                                                ? direction.permanence + (direction.permanence < 2 ? ' año' : ' años')
+                                                : '--'
+                                            }
+                                        </td>
+                                        <td class="text-center">${direction.material || '--'}</td>
                                         <td class="text-center">
-                                            ${direction.drains ? 
-                                                '<span class="badge bg-success mb-1">SI</span>' 
-                                                : 
-                                                '<span class="badge bg-danger mb-1">NO</span>'
+                                            ${
+                                                direction.drains === true
+                                                    ? '<span class="badge bg-success mb-1">SI</span>'
+                                                    : direction.drains === false
+                                                        ? '<span class="badge bg-danger mb-1">NO</span>'
+                                                        : '--'
                                             }
                                         </td>
                                     </tr>

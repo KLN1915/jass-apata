@@ -112,7 +112,9 @@ class ClientService{
     public function createClient($request, $occupation){
         $client = new Client();
         $client->phone_number = $request->phoneNumber;
-        $client->datebirth = Carbon::parse($request->datebirth)->format('Y-m-d');
+        $client->datebirth = $request->datebirth 
+            ? Carbon::parse($request->datebirth)->format('Y-m-d') 
+            : null;
         $client->grade = $request->grade;
         $client->occupation_id = $occupation->id ?? null;
         $client->save();
