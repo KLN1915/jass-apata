@@ -31,35 +31,36 @@ class DebtService
         if ($request->debt_since) {
             $startDebtYear = $request->debt_since;
         } else {
-            $startDebtYear = Carbon::createFromFormat('d-m-Y', $request->start_date);
-            $startDebtYear = $startDebtYear->year;            
+            $startDebtYear = null;
         }
         $currentYear = now()->year;
 
         $debts = [];
 
-        for ($year = $startDebtYear; $year <= $currentYear; $year++) {
-            if ($year < 2025) {
-                $debts[] = [
-                    'period' => $year,
-                    'type' => 'NORMAL',
-                    'amount' => 30.00,
-                    'contract_id' => $contractId,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-            } else if ($year >= 2025) {
-                $debts[] = [
-                    'period' => $year,
-                    'type' => 'NORMAL',
-                    'amount' => Service::find($serviceId)->price,
-                    'contract_id' => $contractId,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
+        if($startDebtYear){
+            for ($year = $startDebtYear; $year <= $currentYear; $year++) {
+                if ($year < 2025) {
+                    $debts[] = [
+                        'period' => $year,
+                        'type' => 'NORMAL',
+                        'amount' => 30.00,
+                        'contract_id' => $contractId,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                } else if ($year >= 2025) {
+                    $debts[] = [
+                        'period' => $year,
+                        'type' => 'NORMAL',
+                        'amount' => Service::find($serviceId)->price,
+                        'contract_id' => $contractId,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
             }
+            DB::table('debts')->insert($debts);
         }
-        DB::table('debts')->insert($debts);
     }
 
     private function createDebt($request, $contractId)
