@@ -6,10 +6,12 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OccupationController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DebtController;
-use App\Http\Controllers\HistoryTitularController;
+// use App\Http\Controllers\HistoryTitularController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\ServiceController;
+use App\Exports\ClientsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +43,11 @@ Route::middleware('auth')->group(function () {
 });
 //Clients
 Route::middleware(['auth', 'verified'])->group(function(){
+    // Export a Excel
+    Route::get('/clients/export', function () {
+        return Excel::download(new ClientsExport, 'reporte_usuarios.xlsx');
+    })->name('clients.export');
+    //
     Route::resource('clients', ClientController::class);
     Route::get('getOccupations', [OccupationController::class, 'getOccupations']);
     Route::get('getAssociateds', [ClientController::class, 'getAssociateds']);

@@ -471,6 +471,18 @@ return [
                     'asset' => false,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
+                // 🔥 BUTTONS (AGREGAR ESTO)
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css',
+                ],
+
                 [
                     'type' => 'css',
                     'asset' => false,

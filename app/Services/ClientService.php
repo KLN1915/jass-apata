@@ -8,6 +8,14 @@ use App\Models\Client;
 use App\Models\HistoryTitular;
 
 class ClientService{
+    public function getClientsQuery(){
+        $query = Client::with(['currentTitular', 'directions.zone']);
+
+        $this->applyFilters($query);
+
+        return $query;
+    }
+
     public function getAssociateds($request){
         $search = $request->get('search');
 
@@ -39,7 +47,7 @@ class ClientService{
 
     public function getClientsData(){
         try {
-            $clients = Client::with(['currentTitular', 'directions.zone']);
+            $clients = $this->getClientsQuery();
 
             return DataTables::of($clients)
                 ->addIndexColumn()

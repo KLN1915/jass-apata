@@ -69,6 +69,21 @@
             let clientsTable = $('#clientsTable').DataTable({
                 serverSide: true,
                 responsive: true,
+                //Export a Excel
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'Exportar Excel',
+                        className: 'btn btn-success btn-sm',
+                        action: function (e, dt) {
+                            let params = dt.ajax.params(); // 🔥 filtros actuales
+                            let query = $.param(params);
+
+                            window.location.href = '/clients/export?' + query;
+                        }
+                    }
+                ],
+                //
                 ajax: {
                     url: "{{ route('clients.index') }}",
                     error: function(xhr, error, code) {
